@@ -1,29 +1,19 @@
-import { Request, Response, Router } from "express";
-import { pool } from "../../db/index";
+import { Response, Request } from "express";
+import { pool } from "../db/index";
 
-export const router = Router();
-
-router.post("/", async (req: Request, res: Response) => {
-  const { description } = req.body;
-
+export const addTodo = async (req: Request, res: Response) => {
   try {
+    const { description } = req.body;
     if (!description) {
-      res.status(400).json({
-        status: "error",
-        message: "Description is required",
-        data: null,
-      });
+      res.render("../views/index.ejs", { error: "Description is required" });
+      return
     }
 
     const data = await pool.query(
       `INSERT INTO todo (description) VALUES ($1) RETURNING *;`,
       [description]
     );
-    res.json({
-      status: "ok",
-      message: "Todo task created",
-      data: null,
-    });
+    res.redirect("/");
   } catch (error) {
     res.status(500).json({
       status: "error",
@@ -32,16 +22,13 @@ router.post("/", async (req: Request, res: Response) => {
       data: null,
     });
   }
-});
+};
 
-router.get("/", async (req: Request, res: Response) => {
+export const getTodo = async (req: Request, res: Response) => {
   try {
     const data = await pool.query(`SELECT * FROM todo;`);
-    res.json({
-      status: "ok",
-      message: "",
-      data: data.rows,
-    });
+    console.log(data.rows);
+    res.render("../views/index.ejs", { todos: data.rows });
   } catch (error) {
     res.status(500).json({
       status: "error",
@@ -50,9 +37,9 @@ router.get("/", async (req: Request, res: Response) => {
       data: null,
     });
   }
-});
+};
 
-router.delete("/:id", async (req: Request, res: Response) => {
+export const deleteTodo = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     if (!id) {
@@ -66,11 +53,12 @@ router.delete("/:id", async (req: Request, res: Response) => {
       `DELETE FROM todo WHERE id = $1 RETURNING *;`,
       [id]
     );
-    res.json({
+    /* res.json({
       status: "ok",
       message: "Todo task deleted",
       data: null,
-    });
+    }); */
+    res.redirect("/");
   } catch (error) {
     res.status(500).json({
       status: "error",
@@ -79,9 +67,9 @@ router.delete("/:id", async (req: Request, res: Response) => {
       data: null,
     });
   }
-});
+};
 
-router.put("/:id", async (req: Request, res: Response) => {
+export const updateTodo = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { description, completed } = req.body;
   try {
@@ -110,11 +98,12 @@ router.put("/:id", async (req: Request, res: Response) => {
       `UPDATE todo SET description = $1, completed = $2 WHERE id = $3 RETURNING *;`,
       [description, completed, id]
     );
-    res.json({
+    /*  res.json({
       status: "ok",
       message: "Todo task updated",
       data: null,
-    });
+    }); */
+    res.redirect("/");
   } catch (error) {
     res.status(500).json({
       status: "error",
@@ -123,4 +112,4 @@ router.put("/:id", async (req: Request, res: Response) => {
       data: null,
     });
   }
-});
+};

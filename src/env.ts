@@ -1,2 +1,2 @@
-export const PORT = 8000;
-export const HOST = "localhost";
+export const PORT = process.env.PORT || 8000;
+export const HOST = process.env.HOST || "localhost";
