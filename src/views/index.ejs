@@ -22,6 +22,8 @@
         </button>
       </form>
 
+      <div class="alert alert-danger d-none" role="alert" id="error-message"></div>
+
       <div>
         <ul class="list-group">
           <% todos.forEach(todo => { %>
@@ -30,10 +32,12 @@
           >
             <div class="todo-content">
               <div>
-                <input type="checkbox" class="form-check-input me-2
-                todo-toggle" data-id="<%= todo.id %>" <%= todo.completed ?
-                "checked" : "" %> />
-                <span class="todo-description <%= todo.completed ? 'todo-completed' : '' %>">
+                <input type="checkbox" class="form-check-input me-2 todo-toggle"
+                data-id="<%= todo.id %>" <%= todo.completed ? "checked" : "" %>
+                />
+                <span
+                  class="todo-description <%= todo.completed ? 'todo-completed' : '' %>"
+                >
                   <%= todo.description %>
                 </span>
               </div>
@@ -60,7 +64,10 @@
                 class="form-control me-2 edit-description-input"
                 value="<%= todo.description %>"
               />
-              <button class="btn btn-dark todo-save-button" data-id="<%= todo.id %>">
+              <button
+                class="btn btn-dark todo-save-button"
+                data-id="<%= todo.id %>"
+              >
                 Save
               </button>
             </div>

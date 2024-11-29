@@ -19,7 +19,7 @@ $(() => {
     if (description) {
       postData(`/`, "POST", { description, completed: false });
     } else {
-      alert("Please enter a todo description!");
+      $("#error-message").removeClass("d-none").html("Please enter a todo description!")
     }
   });
 
@@ -50,7 +50,7 @@ $(() => {
     if (description) {
       postData(`/${id}`, "PUT", { description, completed });
     } else {
-      alert("Description cannot be empty!");
+      $("#error-message").removeClass("d-none").html("Description cannot be empty!")
     }
   });
 

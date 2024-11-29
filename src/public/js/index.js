@@ -20,7 +20,7 @@ $(function () {
             postData("/", "POST", { description: description, completed: false });
         }
         else {
-            alert("Please enter a todo description!");
+            $("#error-message").removeClass("d-none").html("Please enter a todo description!");
         }
     });
     $(".todo-delete-button").on("click", function (e) {
@@ -46,7 +46,7 @@ $(function () {
             postData("/".concat(id), "PUT", { description: description, completed: completed });
         }
         else {
-            alert("Description cannot be empty!");
+            $("#error-message").removeClass("d-none").html("Description cannot be empty!");
         }
     });
     $(".todo-toggle").on("change", function (e) {
