@@ -13,9 +13,9 @@ $(function () {
             },
         });
     };
-    $("#add-todo").on("click", function () {
+    $("#todo-add-button").on("click", function () {
         var _a;
-        var description = (_a = $("#todo-description").val()) === null || _a === void 0 ? void 0 : _a.toString().trim();
+        var description = (_a = $("#new-todo-input").val()) === null || _a === void 0 ? void 0 : _a.toString().trim();
         if (description) {
             postData("/", "POST", { description: description, completed: false });
         }
@@ -41,8 +41,9 @@ $(function () {
         var todoItem = target.closest("li");
         var id = target.data("id");
         var description = (_a = todoItem.find(".edit-input").val()) === null || _a === void 0 ? void 0 : _a.toString().trim();
+        var completed = todoItem.find(".toggle-complete").is(":checked");
         if (description) {
-            postData("/".concat(id), "PUT", { description: description, completed: false });
+            postData("/".concat(id), "PUT", { description: description, completed: completed });
         }
         else {
             alert("Description cannot be empty!");
