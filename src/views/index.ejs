@@ -15,6 +15,7 @@
           class="form-control me-2"
           placeholder="Add a new todo"
           required
+          maxlength="80"
         />
         <button type="button" class="btn btn-dark" id="todo-add-button">
           Add Todo
@@ -27,25 +28,25 @@
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
           >
-            <div class="action-buttons">
+            <div class="todo-content">
               <div>
                 <input type="checkbox" class="form-check-input me-2
-                toggle-complete" data-id="<%= todo.id %>" <%= todo.completed ?
+                todo-toggle" data-id="<%= todo.id %>" <%= todo.completed ?
                 "checked" : "" %> />
-                <span class="todo-text <%= todo.completed ? 'checked' : '' %>">
+                <span class="todo-description <%= todo.completed ? 'todo-completed' : '' %>">
                   <%= todo.description %>
                 </span>
               </div>
               <div>
                 <button
-                  class="btn btn-outline-secondary btn-sm me-2 update-button"
+                  class="btn btn-outline-secondary btn-sm me-2 todo-edit-button"
                   data-id="<%= todo.id %>"
                   data-description="<%= todo.description %>"
                 >
                   <i class="bi bi-pencil">Edit</i>
                 </button>
                 <button
-                  class="btn btn-outline-danger btn-sm delete-button"
+                  class="btn btn-outline-danger btn-sm todo-delete-button"
                   data-id="<%= todo.id %>"
                 >
                   <i class="bi bi-trash">Delete</i>
@@ -53,13 +54,13 @@
               </div>
             </div>
 
-            <div class="edit-form d-none mt-2">
+            <div class="todo-edit-form d-none mt-2">
               <input
                 type="text"
-                class="form-control me-2 edit-input"
+                class="form-control me-2 edit-description-input"
                 value="<%= todo.description %>"
               />
-              <button class="btn btn-dark save-button" data-id="<%= todo.id %>">
+              <button class="btn btn-dark todo-save-button" data-id="<%= todo.id %>">
                 Save
               </button>
             </div>

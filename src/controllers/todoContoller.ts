@@ -72,7 +72,7 @@ export const deleteTodo = async (req: Request, res: Response) => {
   }
 };
 
-export const updateTodo = async (req: Request, res: Response) => {
+export const editTodo = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { description, completed } = req.body;
   try {

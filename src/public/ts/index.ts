@@ -23,29 +23,29 @@ $(() => {
     }
   });
 
-  $(".delete-button").on("click", (e) => {
+  $(".todo-delete-button").on("click", (e) => {
     const target = $(e.currentTarget);
     const id = target.data("id") as number;
 
     postData(`/${id}`, "DELETE");
   });
 
-  $(".update-button").on("click", function () {
+  $(".todo-edit-button").on("click", function () {
     const parentLi = $(this).closest("li");
 
-    $(".edit-form").addClass("d-none");
-    $(".action-buttons").show();
+    $(".todo-edit-form").addClass("d-none");
+    $(".todo-content").show();
 
-    parentLi.find(".edit-form").removeClass("d-none");
-    parentLi.find(".action-buttons").hide();
+    parentLi.find(".todo-edit-form").removeClass("d-none");
+    parentLi.find(".todo-content").hide();
   });
 
-  $(".save-button").on("click", (e) => {
+  $(".todo-save-button").on("click", (e) => {
     const target = $(e.currentTarget);
     const todoItem = target.closest("li");
     const id = target.data("id") as number;
-    const description = todoItem.find(".edit-input").val()?.toString().trim();
-    const completed = todoItem.find(".toggle-complete").is(":checked");
+    const description = todoItem.find(".edit-description-input").val()?.toString().trim();
+    const completed = todoItem.find(".todo-toggle").is(":checked");
 
     if (description) {
       postData(`/${id}`, "PUT", { description, completed });
@@ -54,17 +54,17 @@ $(() => {
     }
   });
 
-  $(".toggle-complete").on("change", (e) => {
+  $(".todo-toggle").on("change", (e) => {
     const target = $(e.currentTarget);
     const todoItem = target.closest("li");
     const id = target.data("id") as number;
-    const text = todoItem.find(".todo-text");
+    const text = todoItem.find(".todo-description");
 
     const completed = target.is(":checked");
     if (completed) {
-      text.addClass("checked");
+      text.addClass("todo-completed");
     } else {
-      text.removeClass("checked");
+      text.removeClass("todo-completed");
     }
 
     const description = text.text().trim();
