@@ -1,54 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include("head.ejs", { title: "Index", styles:"/css/index.css" }) %>
+    <%- include("head.ejs", { title: "Index", styles: "/css/index.css" }) %>
   </head>
   <body>
     <div class="container py-5">
       <h1 class="text-center mb-4">Todo App</h1>
-  
-      <form action="/" method="post" class="d-flex mb-4">
+
+      <form class="d-flex mb-4">
         <input
           type="text"
+          id="todo-description"
           name="description"
           class="form-control me-2"
           placeholder="Add a new todo"
           required
         />
-     
-        <button type="submit" class="btn btn-dark">Add Todo</button>
+        <button type="button" class="btn btn-dark" id="add-todo">
+          Add Todo
+        </button>
       </form>
-  
+
       <div>
-       
-          <ul class="list-group">
-            <% todos.forEach(todo => { %>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                  <input
-                    type="checkbox"
-                    class="form-check-input me-2"
-                    <% if (todo.completed) { %> checked <% } %>
-                  />
-                  <span><%= todo.description %></span>
-                </div>
-                <div>
-                  <button
-                    class="btn btn-outline-secondary btn-sm me-2"
-                  >
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                  <button
-                    class="btn btn-outline-danger btn-sm"
-                    onclick="location.href='/deleteTodo/<%= todo.id %>'"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </div>
-              </li>
-            <% }) %>
-          </ul>
-        
+        <ul class="list-group">
+          <% todos.forEach(todo => { %>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <div class="action-buttons">
+              <div>
+                <input type="checkbox" class="form-check-input me-2
+                toggle-complete" data-id="<%= todo.id %>" <%= todo.completed ?
+                "checked" : "" %> />
+                <span class="todo-text <%= todo.completed ? 'checked' : '' %>">
+                  <%= todo.description %>
+                </span>
+              </div>
+              <div>
+                <button
+                  class="btn btn-outline-secondary btn-sm me-2 update-button"
+                  data-id="<%= todo.id %>"
+                  data-description="<%= todo.description %>"
+                >
+                  <i class="bi bi-pencil">Edit</i>
+                </button>
+                <button
+                  class="btn btn-outline-danger btn-sm delete-button"
+                  data-id="<%= todo.id %>"
+                >
+                  <i class="bi bi-trash">Delete</i>
+                </button>
+              </div>
+            </div>
+
+            <div class="edit-form d-none mt-2">
+              <input
+                type="text"
+                class="form-control me-2 edit-input"
+                value="<%= todo.description %>"
+              />
+              <button class="btn btn-dark save-button" data-id="<%= todo.id %>">
+                Save
+              </button>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
       </div>
     </div>
   </body>

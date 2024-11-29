@@ -1,44 +1,73 @@
-/* $(() => {
-    const postData = (url: string, method: string, data: any) => {
-      $.ajax({
-        url: url,
-        method: method,
-        contentType: "application/json",
-        data: JSON.stringify(data),
-        success: function (response) {
-          console.log("Server Response: ", response);
-          window.location.reload();
-        },
-        error: function (xhr, status, error) {
-          console.log("Request failed. Status: " + status);
-          console.log("Error: " + error);
-          console.log("Response text: " + xhr.responseText);
-        }
-      });
-    };
-  
-    const updateButtons = $(".update-button");
-  
-    updateButtons.on("click", (e: JQuery.ClickEvent) => {
-      const target = $(e.currentTarget);
-      const productId = target.data("product-id") as number;
-      const quantity = target.closest("form").find("input[name='quantity']").val() as string;
-  
-      const quantityNumber = parseInt(quantity);
-  
-      if (!isNaN(quantityNumber) && quantityNumber >= 1) {
-        postData("/cart/update", "PUT", { productId: productId, quantity: quantityNumber });
-      } else {
-        alert("Invalid quantity!");
-      }
+$(() => {
+  const postData = (url: string, method: string, data?: any) => {
+    $.ajax({
+      url: url,
+      method: method,
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (response) {
+        window.location.reload();
+      },
+      error: function (xhr, status, error) {
+        console.log("Error: ", status, error, xhr.responseText);
+      },
     });
+  };
+
+  $("#add-todo").on("click", () => {
+    const description = $("#todo-description").val()?.toString().trim();
+    if (description) {
+      postData(`/`, "POST", { description, completed: false });
+    } else {
+      alert("Please enter a todo description!");
+    }
+  });
+
+  $(".delete-button").on("click", (e) => {
+    const target = $(e.currentTarget);
+    const id = target.data("id") as number;
+
+    postData(`/${id}`, "DELETE");
+  });
+
+    $(".update-button").on("click", function () {
+    const parentLi = $(this).closest("li"); 
+
+    $(".edit-form").addClass("d-none");
+    $(".action-buttons").show();
+
+    parentLi.find(".edit-form").removeClass("d-none"); 
+    parentLi.find(".action-buttons").hide();
+  });
+
   
-    const deleteButtons = $(".delete-button");
-  
-    deleteButtons.on("click", (e: JQuery.ClickEvent) => {
-      const target = $(e.currentTarget);
-      const productId = target.data("product-id") as number;
-  
-      postData("/cart/delete", "DELETE", { productId: productId });
-    });
-  });  */ 
+  $(".save-button").on("click", (e) => {
+    const target = $(e.currentTarget);
+    const todoItem = target.closest("li");
+    const id = target.data("id") as number;
+    const description = todoItem.find(".edit-input").val()?.toString().trim();
+
+    if (description) {
+      postData(`/${id}`, "PUT", { description, completed: false});
+    } else {
+      alert("Description cannot be empty!");
+    }
+  });
+
+  $(".toggle-complete").on("change", (e) => {
+    const target = $(e.currentTarget);
+    const todoItem = target.closest("li");
+    const id = target.data("id") as number;
+    const text = todoItem.find(".todo-text");
+
+    const completed = target.is(":checked");
+    if (completed) {
+      text.addClass("checked");
+    } else {
+      text.removeClass("checked");
+    }
+
+    const description = text.text().trim();
+    postData(`/${id}`, "PUT", { description, completed });
+  });
+});
