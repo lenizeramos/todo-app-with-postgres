@@ -1,6 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.border-container {
+  margin-top: 2rem;
+  background-color: white;
+  border: 1px #888888 solid;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 2px 5px #888888;
+}
+
+#todo-add-button:hover {
+  background-color: #888888;
+  color: black;
+}
+
+.form-check-input:checked {
+  background-color: black;
+  border-color: black;
+}
+
 .todo-completed {
   text-decoration: line-through;
-  color: gray;
+  color: #888888;
 }
 
 /*# sourceMappingURL=index.css.map */

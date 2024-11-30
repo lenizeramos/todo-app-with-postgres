@@ -5,7 +5,7 @@ $(function () {
             method: method,
             contentType: "application/json",
             data: JSON.stringify(data),
-            success: function (response) {
+            success: function () {
                 window.location.reload();
             },
             error: function (xhr, status, error) {
@@ -20,7 +20,9 @@ $(function () {
             postData("/", "POST", { description: description, completed: false });
         }
         else {
-            $("#error-message").removeClass("d-none").html("Please enter a todo description!");
+            $("#error-message")
+                .removeClass("d-none")
+                .html("Please enter a todo description!");
         }
     });
     $(".todo-delete-button").on("click", function (e) {
@@ -30,23 +32,26 @@ $(function () {
     });
     $(".todo-edit-button").on("click", function () {
         var parentLi = $(this).closest("li");
-        $(".todo-edit-form").addClass("d-none");
-        $(".todo-content").show();
         parentLi.find(".todo-edit-form").removeClass("d-none");
-        parentLi.find(".todo-content").hide();
+        parentLi.find(".todo-content").addClass("d-none");
+        parentLi.find(".todo-content").removeClass("d-flex");
     });
     $(".todo-save-button").on("click", function (e) {
         var _a;
         var target = $(e.currentTarget);
         var todoItem = target.closest("li");
         var id = target.data("id");
-        var description = (_a = todoItem.find(".edit-description-input").val()) === null || _a === void 0 ? void 0 : _a.toString().trim();
+        var description = (_a = todoItem
+            .find(".edit-description-input")
+            .val()) === null || _a === void 0 ? void 0 : _a.toString().trim();
         var completed = todoItem.find(".todo-toggle").is(":checked");
         if (description) {
             postData("/".concat(id), "PUT", { description: description, completed: completed });
         }
         else {
-            $("#error-message").removeClass("d-none").html("Description cannot be empty!");
+            $("#error-message")
+                .removeClass("d-none")
+                .html("Todo description cannot be empty!");
         }
     });
     $(".todo-toggle").on("change", function (e) {

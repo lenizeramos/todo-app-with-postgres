@@ -1,4 +1,32 @@
+$maincolor: #888888;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+
+.border-container {
+  margin-top: 2rem;
+  background-color: white;
+  border: 1px $maincolor solid;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 2px 5px $maincolor;
+}
+
+#todo-add-button:hover {
+    background-color: $maincolor;
+    color: black;
+  }
+
+.form-check-input:checked {
+  background-color: black;
+  border-color: black;
+}
+
 .todo-completed {
   text-decoration: line-through;
-  color: gray;
+  color: $maincolor;
 }
