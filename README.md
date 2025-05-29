@@ -1,3 +1,5 @@
+> **Note:** This repository is a personal backup of coursework originally developed as part of my studies at Cornerstone College. It was cloned from a institutional and private repository to preserve my contributions and development history.
+
 # Todo App with PG
 
 To get started run: 
@@ -31,4 +33,3 @@ Use should be able to mark a task as done or edit it:
 Notes: 
  * Focus on the nodeJS-postgres integration with pg library & CRUD operations
  * You can work on the endpoints (with Postman) first, and then create the UI. 
-
